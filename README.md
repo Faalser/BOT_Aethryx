@@ -1,0 +1,2 @@
+# Aethryx
+Bot Discord

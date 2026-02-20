@@ -1,0 +1,13 @@
+/home/faalser/projects/Aethryx/src/main/java/bot/Bot.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/AvatarCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/CoinFlipCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/Command.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/DiceCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/PingCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/RollCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/SayCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/ServerInfoCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/ShutdownCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/command/UserInfoCommand.java
+/home/faalser/projects/Aethryx/src/main/java/bot/handler/CommandHandler.java
+/home/faalser/projects/Aethryx/src/main/java/bot/listener/MessageListener.java

@@ -1,0 +1,13 @@
+bot/command/DiceCommand.class
+bot/Bot.class
+bot/command/CoinFlipCommand.class
+bot/command/PingCommand.class
+bot/command/ShutdownCommand.class
+bot/listener/MessageListener.class
+bot/command/RollCommand.class
+bot/command/UserInfoCommand.class
+bot/command/SayCommand.class
+bot/command/Command.class
+bot/command/ServerInfoCommand.class
+bot/command/AvatarCommand.class
+bot/handler/CommandHandler.class
