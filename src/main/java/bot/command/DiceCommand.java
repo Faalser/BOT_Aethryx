@@ -2,8 +2,6 @@ package bot.command;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.Random;
-import net.dv8tion.jda.api.EmbedBuilder;
-import java.awt.Color;
 
 public class DiceCommand implements Command {
     
@@ -25,10 +23,6 @@ public class DiceCommand implements Command {
             }
         }
         int roll = new Random().nextInt(dice) + 1;
-        EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("Dice Roll Result");
-        embedBuilder.setColor(Color.BLUE);
-        embedBuilder.addField("Roll", "Tu as fait un " + roll + "!", false);
-        event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
+        event.getChannel().sendMessage("Vous avez lancé un dé à " + dice + " faces et obtenu : " + roll).queue();
     }
 }
