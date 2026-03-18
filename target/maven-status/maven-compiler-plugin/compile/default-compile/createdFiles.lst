@@ -1,8 +1,0 @@
-bot/commands/hello.class
-bot/Bot.class
-bot/commands/serverinfo.class
-bot/SlashListener.class
-bot/command.class
-bot/commands/userinfo.class
-bot/commands/avatar.class
-bot/commands/ping.class
