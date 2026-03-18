@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import java.util.List;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.IOException;
 
 public class Bot
 {
@@ -20,7 +23,20 @@ public class Bot
     );
     public static void main(String[] args)
     {
-        String token = System.getenv("DISCORD_BOT_TOKEN");
+        String token = null;
+        try 
+        {
+            token = Files.lines(Paths.get("/home/faalser/PROJECT/BOT_Aethryx/.env"))
+                .filter(line -> line.startsWith("DISCORD_BOT_TOKEN="))
+                .map(line -> line.split("=", 2)[1])
+                .findFirst()
+                .orElse(null);
+        }
+        catch (IOException e) 
+        {
+            System.err.println("Erreur lors de la lecture du fichier .env" + e.getMessage());
+            return;
+        }
         JDA jda = JDABuilder
             .createDefault(token)
             .enableIntents(
