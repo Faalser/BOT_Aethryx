@@ -57,6 +57,14 @@ java -jar target/BOT_Aethryx.jar
  
 ---
  
+## Licence
+ 
+Ce projet est sous licence **GNU General Public License v3.0** — voir le fichier [LICENSE](LICENSE) pour plus de détails.
+ 
+Tout fork ou modification doit rester open source sous la même licence.
+ 
+---
+ 
 ## Auteur
  
 **faalser** — [GitHub](https://github.com/faalser)
