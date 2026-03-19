@@ -16,6 +16,7 @@ public class Bot
 {
     public static final List<command> COMMANDS = List.of(
         new avatar(),
+        new ban(),
         new hello(),
         new kick(),
         new ping(),

@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.entities.Member;
+import java.util.concurrent.TimeUnit;
 
 public class kick implements command
 {
@@ -44,9 +45,10 @@ public class kick implements command
         }
         option.getAsUser().openPrivateChannel().flatMap(channel -> {
             return channel.sendMessage("Vous avez été kické du serveur pour la raison : " + reasonOption.getAsString());
-        }).queue();
+        }).queue(); 
+
         Member member = option.getAsMember();
-        event.getGuild().kick(member).queue();
+        event.getGuild().kick(member).completeAfter(1, TimeUnit.SECONDS);
         event.reply("Kick effectué !").setEphemeral(true).queue();
     }
 
