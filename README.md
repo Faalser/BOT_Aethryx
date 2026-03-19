@@ -61,10 +61,10 @@ java -jar target/BOT_Aethryx.jar
  
 Ce projet est sous **licence personnalisée** — voir le fichier [LICENSE](LICENSE) pour plus de détails.
  
-- [O] Utilisation et modification autorisées
-- [O] Forks autorisés mais doivent rester open source
-- [O] L'auteur original doit être crédité
-- [X] Toute utilisation commerciale est strictement interdite
+- [x] Utilisation et modification autorisées
+- [x] Forks autorisés mais doivent rester open source
+- [x] L'auteur original doit être crédité
+- [ ] Toute utilisation commerciale est strictement interdite
  
 ---
  
