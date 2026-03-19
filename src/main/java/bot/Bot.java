@@ -17,6 +17,7 @@ public class Bot
     public static final List<command> COMMANDS = List.of(
         new avatar(),
         new hello(),
+        new kick(),
         new ping(),
         new serverinfo(),
         new userinfo()
