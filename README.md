@@ -48,7 +48,7 @@ java -jar target/BOT_Aethryx.jar
  
 ## Roadmap
  
-- [ ] Modération (`/kick`, `/ban`, `/mute`)
+- [x] Modération (`/kick`, `/ban`, `/mute`)
 - [ ] Système de warns
 - [ ] Système de niveaux XP
 - [ ] Musique
