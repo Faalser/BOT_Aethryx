@@ -32,7 +32,7 @@ public class Bot
         String token = null;
         try 
         {
-            token = Files.lines(Paths.get("/home/faalser/PROJECT/BOT_Aethryx/.env"))
+            token = Files.lines(Paths.get(System.getProperty("user.dir") + "/.env"))
                 .filter(line -> line.startsWith("DISCORD_BOT_TOKEN="))
                 .map(line -> line.split("=", 2)[1])
                 .findFirst()
