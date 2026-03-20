@@ -23,6 +23,7 @@ public class Bot
         new kick(),
         new ping(),
         new serverinfo(),
+        new unmute(),
         new userinfo()
     );
     public static void main(String[] args)
