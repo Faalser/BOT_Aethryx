@@ -21,6 +21,7 @@ public class Bot
         new hello(),
         new help(),
         new kick(),
+        new mute(),
         new ping(),
         new serverinfo(),
         new unmute(),
