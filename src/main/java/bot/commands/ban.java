@@ -37,7 +37,7 @@ public class ban implements command
     @Override
     public String getUsage()
     {
-        return "/ban [utilisateur] [raison]";
+        return "/ban <utilisateur> <raison>";
     }
 
     @Override

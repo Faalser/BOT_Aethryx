@@ -36,7 +36,7 @@ public class kick implements command
     @Override
     public String getUsage() 
     {
-        return "/kick [utilisateur] [raison]";
+        return "/kick <utilisateur> <raison>";
     }
 
     @Override

@@ -34,7 +34,7 @@ public class userinfo implements command
     @Override
     public String getUsage()
     {
-        return "/userinfo [utilisateur]";
+        return "/userinfo <utilisateur>";
     }
 
     @Override

@@ -18,13 +18,13 @@ public class mute implements command {
     @Override
     public String getDescription() 
     {
-        return "Mute un utilisateur pour une durée donnée (max 28 jours), ce mute est un peu spécial (pas seulement le vocal)";
+        return "Mute un utilisateur pour une durée donnée (max 28 jours)";
     }
 
     @Override
     public String getUsage() 
     {
-        return "/mute <user>";
+        return "/mute <user> <duration> <reason>";
     }
 
     @Override 

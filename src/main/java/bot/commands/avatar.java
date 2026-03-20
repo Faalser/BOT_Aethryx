@@ -33,7 +33,7 @@ public class avatar implements command
     @Override
     public String getUsage()
     {
-        return "/avatar [utilisateur]";
+        return "/avatar <utilisateur>";
     }
 
     @Override

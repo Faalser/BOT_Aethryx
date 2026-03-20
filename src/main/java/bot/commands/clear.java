@@ -36,7 +36,7 @@ public class clear implements command
     @Override 
     public String getUsage()
     {
-        return "/clear [nombre de messages]";
+        return "/clear <nombre de messages>";
     }
 
     @Override 
