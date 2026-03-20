@@ -2,19 +2,33 @@
  
 > **Projet personnel en cours de développement — instable, non destiné à une utilisation publique.**
  
-Bot Discord personnel développé en Java avec [JDA](https://github.com/discord-jda/JDA).
+Bot Discord multifonction développé en Java avec [JDA](https://github.com/discord-jda/JDA).
+Modération, utilitaire, fun et bien plus à venir !
+ 
+[![Inviter le bot](https://img.shields.io/badge/Inviter%20Aethryx-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/oauth2/authorize?client_id=1484677497445679114&permissions=8&integration_type=0&scope=bot+applications.commands)
  
 ---
  
 ## Commandes disponibles
  
+### 🛠️ Utilitaire
 | Commande | Description | Statut |
 |---|---|---|
-| `/ping` | Latence du bot | Fonctionnel |
-| `/hello` | Le bot te salue | Fonctionnel |
-| `/avatar` | Affiche l'avatar d'un utilisateur | Fonctionnel |
-| `/serverinfo` | Infos sur le serveur | Fonctionnel |
-| `/userinfo` | Infos sur un utilisateur | Fonctionnel |
+| `/ping` | Latence du bot | [x] Fonctionnel |
+| `/hello` | Le bot te salue | [x] Fonctionnel |
+| `/avatar` | Affiche l'avatar d'un utilisateur | [x] Fonctionnel |
+| `/serverinfo` | Infos sur le serveur | [x] Fonctionnel |
+| `/userinfo` | Infos sur un utilisateur | [x] Fonctionnel |
+| `/help` | Affiche la liste des commandes | [x] Fonctionnel |
+ 
+### 🔨 Modération
+| Commande | Description | Statut |
+|---|---|---|
+| `/kick` | Expulser un membre | [x] Fonctionnel |
+| `/ban` | Bannir un membre | [x] Fonctionnel |
+| `/mute` | Rendre muet un membre | [x] Fonctionnel |
+| `/unmute` | Retirer le mute d'un membre | [x] Fonctionnel |
+| `/clear` | Supprimer des messages | [x] Fonctionnel |
  
 ---
  
@@ -23,6 +37,7 @@ Bot Discord personnel développé en Java avec [JDA](https://github.com/discord-
 - Java 25
 - [JDA 5.0.0-beta.20](https://github.com/discord-jda/JDA)
 - Maven
+- PostgreSQL
  
 ---
  
@@ -40,17 +55,17 @@ DISCORD_BOT_TOKEN=ton_token_ici
  
 Lance le bot :
 ```bash
-mvn clean package
-java -jar target/BOT_Aethryx.jar
+mvn clean package -DskipTests
+java -jar target/Aethryx-1.0-SNAPSHOT.jar
 ```
  
 ---
  
 ## Roadmap
  
-- [x] Modération (`/kick`, `/ban`, `/mute`)
 - [ ] Système de warns
 - [ ] Système de niveaux XP
+- [ ] Économie (monnaie virtuelle)
 - [ ] Musique
 - [ ] Giveaway
 - [ ] Tickets support
@@ -72,4 +87,4 @@ Ce projet est sous **licence personnalisée** — voir le fichier [LICENSE](LICE
  
 **faalser** — [GitHub](https://github.com/faalser)
  
-*Projet personnel — développement en cours* 
+*Projet personnel — développement en cours*
