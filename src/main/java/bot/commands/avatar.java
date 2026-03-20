@@ -31,6 +31,12 @@ public class avatar implements command
     }
 
     @Override
+    public String getUsage()
+    {
+        return "/avatar [utilisateur]";
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event)
     {
         OptionMapping option = event.getOption("utilisateur");

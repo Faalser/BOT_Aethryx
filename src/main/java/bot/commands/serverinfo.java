@@ -17,6 +17,12 @@ public class serverinfo implements command
         return "Infos sur le serveur (nom, membres, date de création)";
     }
 
+    @Override 
+    public String getUsage()
+    {
+        return "/serverinfo";
+    }
+
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {

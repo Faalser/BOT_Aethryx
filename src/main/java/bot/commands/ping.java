@@ -18,6 +18,12 @@ public class ping implements command
     }
 
     @Override
+    public String getUsage()
+    {
+        return "/ping";
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event)
     {
         long latency = event.getJDA().getGatewayPing();

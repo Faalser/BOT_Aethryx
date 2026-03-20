@@ -18,6 +18,7 @@ public class Bot
         new avatar(),
         new ban(),
         new hello(),
+        new help(),
         new kick(),
         new ping(),
         new serverinfo(),

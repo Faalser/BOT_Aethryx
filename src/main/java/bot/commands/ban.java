@@ -35,6 +35,12 @@ public class ban implements command
     }
 
     @Override
+    public String getUsage()
+    {
+        return "/ban [utilisateur] [raison]";
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
         OptionMapping option = event.getOption("utilisateur");

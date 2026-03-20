@@ -17,6 +17,12 @@ public class hello implements command
         return "Le bot te salue par ton nom";
     }
 
+    @Override 
+    public String getUsage()
+    {
+        return "/hello";
+    }
+
     @Override
     public void execute(SlashCommandInteractionEvent event)
     {

@@ -34,6 +34,12 @@ public class kick implements command
     }
 
     @Override
+    public String getUsage() 
+    {
+        return "/kick [utilisateur] [raison]";
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
         OptionMapping option = event.getOption("utilisateur");

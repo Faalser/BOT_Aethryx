@@ -6,11 +6,14 @@ import java.util.List;
 
 public interface command 
 {
+
     String getName();
     String getDescription();
-    void execute(SlashCommandInteractionEvent event);
-
+    String getUsage();
     default List<OptionData> getOptions() {
         return List.of();
     }
+
+    void execute(SlashCommandInteractionEvent event);
+
 }

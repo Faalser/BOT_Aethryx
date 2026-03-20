@@ -32,6 +32,12 @@ public class userinfo implements command
     }
 
     @Override
+    public String getUsage()
+    {
+        return "/userinfo [utilisateur]";
+    }
+
+    @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
         OptionMapping option = event.getOption("utilisateur");
