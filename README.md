@@ -14,21 +14,21 @@ Modération, utilitaire, fun et bien plus à venir !
 ### 🛠️ Utilitaire
 | Commande | Description | Statut |
 |---|---|---|
-| `/ping` | Latence du bot | [x] Fonctionnel |
-| `/hello` | Le bot te salue | [x] Fonctionnel |
-| `/avatar` | Affiche l'avatar d'un utilisateur | [x] Fonctionnel |
-| `/serverinfo` | Infos sur le serveur | [x] Fonctionnel |
-| `/userinfo` | Infos sur un utilisateur | [x] Fonctionnel |
-| `/help` | Affiche la liste des commandes | [x] Fonctionnel |
+| `/ping` | Latence du bot | - [x] Fonctionnel |
+| `/hello` | Le bot te salue | - [x] Fonctionnel |
+| `/avatar` | Affiche l'avatar d'un utilisateur | - [x] Fonctionnel |
+| `/serverinfo` | Infos sur le serveur | - [x] Fonctionnel |
+| `/userinfo` | Infos sur un utilisateur | - [x] Fonctionnel |
+| `/help` | Affiche la liste des commandes | - [x] Fonctionnel |
  
 ### 🔨 Modération
 | Commande | Description | Statut |
 |---|---|---|
-| `/kick` | Expulser un membre | [x] Fonctionnel |
-| `/ban` | Bannir un membre | [x] Fonctionnel |
-| `/mute` | Rendre muet un membre | [x] Fonctionnel |
-| `/unmute` | Retirer le mute d'un membre | [x] Fonctionnel |
-| `/clear` | Supprimer des messages | [x] Fonctionnel |
+| `/kick` | Expulser un membre | - [x] Fonctionnel |
+| `/ban` | Bannir un membre | - [x] Fonctionnel |
+| `/mute` | Rendre muet un membre | - [x] Fonctionnel |
+| `/unmute` | Retirer le mute d'un membre | - [x] Fonctionnel |
+| `/clear` | Supprimer des messages | - [x] Fonctionnel |
  
 ---
  
