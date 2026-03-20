@@ -54,7 +54,7 @@ public class ban implements command
             return channel.sendMessage("Vous avez été banni du serveur pour la raison : " + reasonOption.getAsString());
         }).queue();
         Member member = option.getAsMember();
-        event.getGuild().ban(member, 7, java.util.concurrent.TimeUnit.DAYS).completeAfter(1, TimeUnit.SECONDS);
+        event.getGuild().ban(member, 7, java.util.concurrent.TimeUnit.DAYS).completeAfter(200, TimeUnit.MILLISECONDS);
         event.reply("Bannissement effectué !").setEphemeral(true).queue();
     }
 

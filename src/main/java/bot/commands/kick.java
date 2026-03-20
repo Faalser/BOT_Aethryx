@@ -54,7 +54,7 @@ public class kick implements command
         }).queue(); 
 
         Member member = option.getAsMember();
-        event.getGuild().kick(member).completeAfter(1, TimeUnit.SECONDS);
+        event.getGuild().kick(member).completeAfter(200, TimeUnit.MILLISECONDS);
         event.reply("Kick effectué !").setEphemeral(true).queue();
     }
 
