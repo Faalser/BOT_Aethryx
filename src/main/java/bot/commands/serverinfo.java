@@ -26,11 +26,20 @@ public class serverinfo implements command
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
-        if (event.getGuild() == null)
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
-            event.reply("Cette commande ne peut être utilisée que dans un serveur.").setEphemeral(true).queue();
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                if (event.getGuild() == null)
+                {
+                    event.reply("Cette commande ne peut être utilisée que dans un serveur.").setEphemeral(true).queue();
+                    return;
+                }
+                event.reply("Informations sur le serveur : \n \t Nom : " + event.getGuild().getName() + "\n \t Membres : " + event.getGuild().getMemberCount()).queue();
+            });
+            thread.start();
             return;
         }
-        event.reply("Informations sur le serveur : \n \t Nom : " + event.getGuild().getName() + "\n \t Membres : " + event.getGuild().getMemberCount()).queue();
+        event.reply("Désolé, trop de demandes en cours.").queue();        
     }
 }

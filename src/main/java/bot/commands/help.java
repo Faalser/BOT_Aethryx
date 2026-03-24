@@ -28,15 +28,20 @@ public class help implements command
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
-        Thread helpThread = new Thread(() -> {
-            EmbedBuilder embed = new EmbedBuilder();
-            for (command cmd : Bot.COMMANDS) {
-                embed.addField(cmd.getName(), cmd.getDescription() + " \n" + cmd.getUsage(), false);
-            }
-            embed.setTitle("Commandes du bot");
-            event.replyEmbeds(embed.build()).queue();
-        });
-        helpThread.start();
-    }
-    
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
+        {
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                EmbedBuilder embed = new EmbedBuilder();
+                for (command cmd : Bot.COMMANDS) {
+                    embed.addField(cmd.getName(), cmd.getDescription() + " \n" + cmd.getUsage(), false);
+                }
+                embed.setTitle("Commandes du bot");
+                event.replyEmbeds(embed.build()).queue();
+            });
+            thread.start();
+            return;
+        }
+        event.reply("Désolé, trop de demandes en cours.").queue();
+    }    
 }

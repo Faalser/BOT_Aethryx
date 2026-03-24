@@ -39,9 +39,18 @@ public class unmute implements command
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
-        Member member = event.getOption("user").getAsMember();
-        member.removeTimeout().queue();
-        event.reply("L'utilisateur " + member.getUser() + " a été unmute.").setEphemeral(true).queue();
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
+        {
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Member member = event.getOption("user").getAsMember();
+                member.removeTimeout().queue();
+                event.reply("L'utilisateur " + member.getUser() + " a été unmute.").setEphemeral(true).queue();
+            });
+            thread.start();
+            return;
+        }
+        event.reply("Désolé, trop de demandes en cours.").queue();
     }
 
 }

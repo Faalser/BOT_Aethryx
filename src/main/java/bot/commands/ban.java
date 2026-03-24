@@ -2,13 +2,13 @@ package bot.commands;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import bot.command;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.entities.Member;
+import java.lang.Thread;
 
 public class ban implements command
 {
@@ -43,19 +43,28 @@ public class ban implements command
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
-        OptionMapping option = event.getOption("utilisateur");
-        OptionMapping reasonOption = event.getOption("raison");
-        if (option == null || reasonOption == null) 
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
-            event.reply("Veuillez fournir un utilisateur et une raison.").setEphemeral(true).queue();
-            return;
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                OptionMapping option = event.getOption("utilisateur");
+                OptionMapping reasonOption = event.getOption("raison");
+                if (option == null || reasonOption == null) 
+                {
+                    event.reply("Veuillez fournir un utilisateur et une raison.").setEphemeral(true).queue();
+                    return;
+                }
+                option.getAsUser().openPrivateChannel().flatMap(channel -> {
+                    return channel.sendMessage("Vous avez été banni du serveur pour la raison : " + reasonOption.getAsString());
+                }).queue();
+                Member member = option.getAsMember();
+                event.getGuild().ban(member, 7, java.util.concurrent.TimeUnit.DAYS).completeAfter(200, TimeUnit.MILLISECONDS);
+                event.reply("Bannissement effectué !").setEphemeral(true).queue();
+            });
+            thread.start();
         }
-        option.getAsUser().openPrivateChannel().flatMap(channel -> {
-            return channel.sendMessage("Vous avez été banni du serveur pour la raison : " + reasonOption.getAsString());
-        }).queue();
-        Member member = option.getAsMember();
-        event.getGuild().ban(member, 7, java.util.concurrent.TimeUnit.DAYS).completeAfter(200, TimeUnit.MILLISECONDS);
-        event.reply("Bannissement effectué !").setEphemeral(true).queue();
+        event.reply("Désolé, trop de demandes en cours.").queue();
+        return;
     }
 
 }

@@ -26,6 +26,15 @@ public class hello implements command
     @Override
     public void execute(SlashCommandInteractionEvent event)
     {
-        event.reply("Hello " + event.getUser().getName() + " !").queue();
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
+        {
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                event.reply("Hello " + event.getUser().getName() + " !").queue();
+            });
+            thread.start();
+            return;
+        }
+        event.reply("Désolé, trop de demandes en cours.").queue();
     }
 }

@@ -39,10 +39,19 @@ public class avatar implements command
     @Override
     public void execute(SlashCommandInteractionEvent event)
     {
-        OptionMapping option = event.getOption("utilisateur");
-        User user = (option != null) ? option.getAsUser() : event.getUser();
-        String avatarurl = user.getEffectiveAvatarUrl() + "?size=512";
-        event.reply("Avatar de **" + user.getName() + "** : " + avatarurl).queue();
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
+        {
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                OptionMapping option = event.getOption("utilisateur");
+                User user = (option != null) ? option.getAsUser() : event.getUser();
+                String avatarurl = user.getEffectiveAvatarUrl() + "?size=512";
+                event.reply("Avatar de **" + user.getName() + "** : " + avatarurl).queue();
+            });
+            thread.start();
+            return;
+        }
+        event.reply("Désolé, trop de demandes en cours.").queue();
     }
 
 }

@@ -1,26 +1,29 @@
 package bot.commands;
 
+import java.util.Map;
+
 import bot.command;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class ping implements command 
+public class threads implements command
 {
+
     @Override
     public String getName()
     {
-        return "ping";
+        return "threads";
     }
 
-    @Override 
+    @Override
     public String getDescription()
     {
-        return "Latence du bot";
+        return "Liste les threads du serveur";
     }
 
     @Override
     public String getUsage()
     {
-        return "/ping";
+        return "/threads";
     }
 
     @Override
@@ -30,12 +33,17 @@ public class ping implements command
         {
             Thread thread = new Thread(() -> {
                 Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
-                long latency = event.getJDA().getGatewayPing();
-                event.reply("Pong ! Latence : **" + latency + "ms**").queue();
+                Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
+                System.out.println("Nombre de threads : " + threads.size());
+                threads.keySet().forEach(t -> 
+                    System.out.println(t.getName() + " - " + t.getState())
+                );
+                event.reply("Threads en cours : " + this.nombreDeThreads() + "\nNombre de Threads possible : " + this.nombreDeThreadsMax()).queue();
             });
             thread.start();
             return;
         }
         event.reply("Désolé, trop de demandes en cours.").queue();
     }
+
 }

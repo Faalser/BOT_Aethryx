@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.entities.Message;
+import java.lang.Thread;
 
 public class clear implements command 
 {
@@ -42,26 +43,35 @@ public class clear implements command
     @Override 
     public void execute(SlashCommandInteractionEvent event)
     {
-        int nombre = event.getOption("nombre").getAsInt();
-        event.getChannel().getHistory().retrievePast(nombre).queue(messages -> {
-            List<Message> recents = messages.stream()
-            .filter(m -> m.getTimeCreated().isAfter(OffsetDateTime.now().minusDays(14)))
-            .collect(Collectors.toList());
-            List<Message> vieux = messages.stream()
-            .filter(m -> m.getTimeCreated().isBefore(OffsetDateTime.now().minusDays(14)))
-            .collect(Collectors.toList());
-            if (!recents.isEmpty()) 
-            {
-                event.getChannel().asTextChannel().deleteMessages(recents).queue();
-            }
-            if (!vieux.isEmpty()) 
-            {
-                for (int i = 0; i < vieux.size(); i++) {
-                    vieux.get(i).delete().queueAfter(i * 1100, TimeUnit.MILLISECONDS);
-                }
-            }
-            event.reply("Clear effectué !").setEphemeral(true).queue();
-        });
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
+        {
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                int nombre = event.getOption("nombre").getAsInt();
+                event.getChannel().getHistory().retrievePast(nombre).queue(messages -> {
+                    List<Message> recents = messages.stream()
+                    .filter(m -> m.getTimeCreated().isAfter(OffsetDateTime.now().minusDays(14)))
+                    .collect(Collectors.toList());
+                    List<Message> vieux = messages.stream()
+                    .filter(m -> m.getTimeCreated().isBefore(OffsetDateTime.now().minusDays(14)))
+                    .collect(Collectors.toList());
+                    if (!recents.isEmpty()) 
+                    {
+                        event.getChannel().asTextChannel().deleteMessages(recents).queue();
+                    }
+                    if (!vieux.isEmpty()) 
+                    {
+                        for (int i = 0; i < vieux.size(); i++) {
+                            vieux.get(i).delete().queueAfter(i * 1100, TimeUnit.MILLISECONDS);
+                        }
+                    }
+                    event.reply("Clear effectué !").setEphemeral(true).queue();
+                });
+            });
+            thread.start();
+            return;
+        }
+        event.reply("Désolé, trop de demandes en cours.").queue();
     }
 
 }

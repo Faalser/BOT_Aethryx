@@ -42,20 +42,28 @@ public class kick implements command
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
-        OptionMapping option = event.getOption("utilisateur");
-        OptionMapping reasonOption = event.getOption("raison");
-        if (option == null || reasonOption == null) 
+        if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
-            event.reply("Veuillez fournir un utilisateur et une raison.").setEphemeral(true).queue();
+            Thread thread = new Thread(() -> {
+                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                OptionMapping option = event.getOption("utilisateur");
+                OptionMapping reasonOption = event.getOption("raison");
+                if (option == null || reasonOption == null) 
+                {
+                    event.reply("Veuillez fournir un utilisateur et une raison.").setEphemeral(true).queue();
+                    return;
+                }
+                option.getAsUser().openPrivateChannel().flatMap(channel -> {
+                    return channel.sendMessage("Vous avez été kické du serveur pour la raison : " + reasonOption.getAsString());
+                }).queue(); 
+                Member member = option.getAsMember();
+                event.getGuild().kick(member).completeAfter(200, TimeUnit.MILLISECONDS);
+                event.reply("Kick effectué !").setEphemeral(true).queue();
+            });
+            thread.start();
             return;
         }
-        option.getAsUser().openPrivateChannel().flatMap(channel -> {
-            return channel.sendMessage("Vous avez été kické du serveur pour la raison : " + reasonOption.getAsString());
-        }).queue(); 
-
-        Member member = option.getAsMember();
-        event.getGuild().kick(member).completeAfter(200, TimeUnit.MILLISECONDS);
-        event.reply("Kick effectué !").setEphemeral(true).queue();
+        event.reply("Désolé, trop de demandes en cours.").queue();      
     }
 
 }

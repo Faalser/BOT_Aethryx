@@ -24,6 +24,7 @@ public class Bot
         new mute(),
         new ping(),
         new serverinfo(),
+        new threads(),
         new unmute(),
         new userinfo()
     );
