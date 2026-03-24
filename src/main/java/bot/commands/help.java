@@ -37,6 +37,7 @@ public class help implements command
                     embed.addField(cmd.getName(), cmd.getDescription() + " \n" + cmd.getUsage(), false);
                 }
                 embed.setTitle("Commandes du bot");
+                embed.addField("Pour plus d'informations veuillez consulter notre documentation", "https://github.com/Faalser/BOT_Aethryx", false);
                 event.replyEmbeds(embed.build()).queue();
             });
             thread.start();
