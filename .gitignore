@@ -1,3 +1,4 @@
 *.class
-*.env
+.env
 target/
+src/main/java/bot/database/
