@@ -59,7 +59,7 @@ public class Bot
         }
         catch (IOException e) 
         {
-            System.err.println("Erreur lors de la lecture du fichier .env" + e.getMessage());
+            System.err.println("Error while reading the file .env: " + e.getMessage());
             return;
         }
         
@@ -93,16 +93,16 @@ public class Bot
                 data.addOptions(cmd.getOptions());
             }
             commands.add(data);
-            System.out.println("Commande ajoutée : /" + cmd.getName());
+            System.out.println("Commands registered : /" + cmd.getName());
         }
         
         // Update commands on Discord servers
         jda.updateCommands().addCommands(commands).queue(
-            success -> System.out.println("Commandes mises à jour avec succès"),
-            error -> System.err.println("Erreur lors de la mise à jour des commandes: " + error.getMessage())
+            success -> System.out.println("Commands updated successfully"),
+            error -> System.err.println("Error while updating commands: " + error.getMessage())
         );
         
-        System.out.println("Bot connecté : " + jda.getSelfUser().getName());
+        System.out.println("Bot connected : " + jda.getSelfUser().getName());
     }
 
 }

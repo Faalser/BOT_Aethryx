@@ -32,12 +32,12 @@ public class mute implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Mute un utilisateur pour une durée donnée (max 28 jours)"
+     * @return Description: "Mute a user for a specified duration (max 28 days)"
      */
     @Override
     public String getDescription() 
     {
-        return "Mute un utilisateur pour une durée donnée (max 28 jours)";
+        return "Mute a user for a specified duration (max 28 days)";
     }
 
     /**
@@ -62,9 +62,9 @@ public class mute implements command
     public List<OptionData> getOptions() 
     {
         return List.of(
-            new OptionData(OptionType.USER, "user", "Utilisateur à mute", true),
-            new OptionData(OptionType.INTEGER, "duration", "Durée du mute en secondes", true),
-            new OptionData(OptionType.STRING, "reason", "Raison du mute", true)
+            new OptionData(OptionType.USER, "user", "User to mute", true),
+            new OptionData(OptionType.INTEGER, "duration", "Duration of the mute in seconds", true),
+            new OptionData(OptionType.STRING, "reason", "Reason for the mute", true)
         );
     }
 
@@ -83,20 +83,20 @@ public class mute implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
                 Member member = event.getOption("user").getAsMember();
                 int duree = event.getOption("duration").getAsInt();
-                String raison = event.getOption("reason") != null ? event.getOption("reason").getAsString() : "Aucune raison spécifiée";
+                String raison = event.getOption("reason") != null ? event.getOption("reason").getAsString() : "No reason specified";
                 long dureeFinal = Math.min(duree, 28*24*60);
                 member.timeoutFor(java.time.Duration.ofMinutes(dureeFinal)).reason(raison).queue();
                 member.getUser().openPrivateChannel().flatMap(channel -> {
-                    return channel.sendMessage("Vous avez été mute du serveur pour la raison : " + raison);
+                    return channel.sendMessage("You have been muted from the server for the reason: " + raison);
                 }).queue();
-                event.reply("L'utilisateur " + member.getUser() + " a été mute pour " + dureeFinal + " minutes.").setEphemeral(true).queue();
+                event.reply("The user " + member.getUser() + " has been muted for " + dureeFinal + " minutes.").setEphemeral(true).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }
 }

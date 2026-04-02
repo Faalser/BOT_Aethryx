@@ -25,12 +25,12 @@ public class serverinfo implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Infos sur le serveur (nom, membres, date de création)"
+     * @return Description: "Server information (name, members, creation date)"
      */
     @Override
     public String getDescription() 
     {
-        return "Infos sur le serveur (nom, membres, date de création)";
+        return "Server information (name, members, creation date)";
     }
 
     /**
@@ -59,17 +59,17 @@ public class serverinfo implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
                 if (event.getGuild() == null)
                 {
-                    event.reply("Cette commande ne peut être utilisée que dans un serveur.").setEphemeral(true).queue();
+                    event.reply("This command can only be used in a server.").setEphemeral(true).queue();
                     return;
                 }
-                event.reply("Informations sur le serveur : \n \t Nom : " + event.getGuild().getName() + "\n \t Membres : " + event.getGuild().getMemberCount()).queue();
+                event.reply("Server information: \n \t Name: " + event.getGuild().getName() + "\n \t Members: " + event.getGuild().getMemberCount()).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();        
+        event.reply("Sorry, too many requests in progress.").queue();        
     }
 }

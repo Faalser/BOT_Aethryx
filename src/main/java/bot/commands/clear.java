@@ -34,12 +34,12 @@ public class clear implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Supprime les messages"
+     * @return Description: "Supprime les messages"
      */
     @Override 
     public String getDescription()
     {
-        return "Supprime les messages";
+        return "Delete messages";
     }
 
     /**
@@ -52,7 +52,7 @@ public class clear implements command
     public List<OptionData> getOptions()
     {
         return List.of(
-            new OptionData(OptionType.INTEGER, "nombre", "Le nombre de messages à supprimer", true)
+            new OptionData(OptionType.INTEGER, "number", "The number of messages to delete", true)
         );
     }
 
@@ -60,12 +60,12 @@ public class clear implements command
      * Returns the usage instructions for this command.
      * Shows the required parameter for the clear command.
      * 
-     * @return Usage string: "/clear [nombre de messages]"
+     * @return Usage string: "/clear [number of messages]"
      */
     @Override 
     public String getUsage()
     {
-        return "/clear [nombre de messages]";
+        return "/clear [number of messages]";
     }
 
     /**
@@ -83,9 +83,9 @@ public class clear implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
-                int nombre = event.getOption("nombre").getAsInt();
-                event.getChannel().getHistory().retrievePast(nombre).queue(messages -> {
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                int number = event.getOption("number").getAsInt();
+                event.getChannel().getHistory().retrievePast(number).queue(messages -> {
                     List<Message> recents = messages.stream()
                     .filter(m -> m.getTimeCreated().isAfter(OffsetDateTime.now().minusDays(14)))
                     .collect(Collectors.toList());
@@ -102,13 +102,13 @@ public class clear implements command
                             vieux.get(i).delete().queueAfter(i * 1100, TimeUnit.MILLISECONDS);
                         }
                     }
-                    event.reply("Clear effectué !").setEphemeral(true).queue();
+                    event.reply("Clear done!").setEphemeral(true).queue();
                 });
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }
 
 }

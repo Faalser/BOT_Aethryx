@@ -33,12 +33,12 @@ public class ban implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Bannit un membre de manière permanente"
+     * @return Description: "Ban a member in a permanent way"
      */
     @Override
     public String getDescription() 
     {
-        return "Bannit un membre de manière permanente";
+        return "Ban a member in a permanent way";
     }
 
     /**
@@ -51,8 +51,8 @@ public class ban implements command
     public List<OptionData> getOptions()
     {
         return List.of(
-            new OptionData(OptionType.USER, "utilisateur", "L'utilisateur à bannir", true),
-            new OptionData(OptionType.STRING, "raison", "La raison du bannissement", true)
+            new OptionData(OptionType.USER, "user", "The user to ban", true),
+            new OptionData(OptionType.STRING, "reason", "The reason of ban", true)
         );
     }
 
@@ -60,12 +60,12 @@ public class ban implements command
      * Returns the usage instructions for this command.
      * Shows the required parameters for the ban command.
      * 
-     * @return Usage string: "/ban [utilisateur] [raison]"
+     * @return Usage string: "/ban [user] [reason]"
      */
     @Override
     public String getUsage()
     {
-        return "/ban [utilisateur] [raison]";
+        return "/ban [user] [reason]";
     }
 
     /**
@@ -83,24 +83,24 @@ public class ban implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
-                OptionMapping option = event.getOption("utilisateur");
-                OptionMapping reasonOption = event.getOption("raison");
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                OptionMapping option = event.getOption("user");
+                OptionMapping reasonOption = event.getOption("reason");
                 if (option == null || reasonOption == null) 
                 {
-                    event.reply("Veuillez fournir un utilisateur et une raison.").setEphemeral(true).queue();
+                    event.reply("Please provide a user and a reason.").setEphemeral(true).queue();
                     return;
                 }
                 option.getAsUser().openPrivateChannel().flatMap(channel -> {
-                    return channel.sendMessage("Vous avez été banni du serveur pour la raison : " + reasonOption.getAsString());
+                    return channel.sendMessage("You have been banned from the server for the reason: " + reasonOption.getAsString());
                 }).queue();
                 Member member = option.getAsMember();
                 event.getGuild().ban(member, 7, java.util.concurrent.TimeUnit.DAYS).completeAfter(200, TimeUnit.MILLISECONDS);
-                event.reply("Bannissement effectué !").setEphemeral(true).queue();
+                event.reply("Banishment completed!").setEphemeral(true).queue();
             });
             thread.start();
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
         return;
     }
 

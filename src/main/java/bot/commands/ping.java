@@ -24,12 +24,12 @@ public class ping implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Latence du bot"
+     * @return Description: "Bot latency"
      */
     @Override 
     public String getDescription()
     {
-        return "Latence du bot";
+        return "Bot latency";
     }
 
     /**
@@ -57,13 +57,13 @@ public class ping implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
                 long latency = event.getJDA().getGatewayPing();
-                event.reply("Pong ! Latence : **" + latency + "ms**").queue();
+                event.reply("Pong! Latency: **" + latency + "ms**").queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }
 }

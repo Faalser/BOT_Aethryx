@@ -27,12 +27,12 @@ public class help implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Affiche l'aide des commandes disponibles"
+     * @return Description: "Display the help of all commands"
      */
     @Override
     public String getDescription() 
     {
-        return "Affiche l'aide des commandes disponibles";
+        return "Display the help of all commands";
     }
 
     /**
@@ -62,18 +62,20 @@ public class help implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
                 EmbedBuilder embed = new EmbedBuilder();
                 for (command cmd : Bot.COMMANDS) {
                     embed.addField(cmd.getName(), cmd.getDescription() + " \n" + cmd.getUsage(), false);
                 }
-                embed.setTitle("Commandes du bot");
-                embed.addField("Pour plus d'informations veuillez consulter notre documentation", "https://github.com/Faalser/BOT_Aethryx", false);
+                embed.setTitle("Commands of the bot");
+                embed.addField("If you have any questions, please contact us on our Discord", "https://discord.gg/tkHVfSbMWp", false);
+                embed.addField("For more information please consult our documentation on our GitHub", "https://github.com/Faalser/BOT_Aethryx", false);
+                embed.addField("Or if you have access to the bot's source code, you can find the documentation in the docs folder", "https://github.com/Faalser/BOT_Aethryx/tree/main/doc/apidocs", false);
                 event.replyEmbeds(embed.build()).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }    
 }

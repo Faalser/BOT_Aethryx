@@ -21,7 +21,7 @@ public class SlashListener extends ListenerAdapter
     @Override
     public void onReady(ReadyEvent event)
     {
-        System.out.println("SlashListener prêt !");
+        System.out.println("SlashListener ready!");
     }
 
     /**
@@ -34,7 +34,7 @@ public class SlashListener extends ListenerAdapter
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) 
     {
-        System.out.println("Commande reçue : /" + event.getName());
+        System.out.println("Command received: /" + event.getName());
         Bot.COMMANDS.stream()
             .filter(cmd -> cmd.getName().equals(event.getName()))
             .findFirst()

@@ -30,12 +30,12 @@ public class unmute implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Unmute un utilisateur"
+     * @return Description: "Unmute a user"
      */
     @Override
     public String getDescription() 
     {
-        return "Unmute un utilisateur";
+        return "Unmute a user";
     }
 
     /**
@@ -60,7 +60,7 @@ public class unmute implements command
     public List<OptionData> getOptions() 
     {
         return List.of(
-            new OptionData(OptionType.USER, "user", "Utilisateur à unmute", true)
+            new OptionData(OptionType.USER, "user", "User to unmute", true)
         );
     }
 
@@ -78,15 +78,15 @@ public class unmute implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
                 Member member = event.getOption("user").getAsMember();
                 member.removeTimeout().queue();
-                event.reply("L'utilisateur " + member.getUser() + " a été unmute.").setEphemeral(true).queue();
+                event.reply("User " + member.getUser() + " has been unmuted.").setEphemeral(true).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }
 
 }

@@ -32,11 +32,11 @@ public class userinfo implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Infos sur un utilisateur (rôles, date de création, date d'arrivée)"
+     * @return Description: "User information (roles, creation date, join date)"
      */
     @Override
     public String getDescription() {
-        return "Infos sur un utilisateur (rôles, date de création, date d'arrivée)";
+        return "User information (roles, creation date, join date)";
     }
 
     /**
@@ -50,7 +50,7 @@ public class userinfo implements command
     public List<OptionData> getOptions()
     {
         return List.of(
-            new OptionData(OptionType.USER, "utilisateur", "L'utilisateur dont vous voulez les infos", false)
+            new OptionData(OptionType.USER, "user", "User whose information you want to display", false)
         );
     }
 
@@ -58,12 +58,12 @@ public class userinfo implements command
      * Returns the usage instructions for this command.
      * Shows the syntax for using the userinfo command.
      * 
-     * @return Usage string: "/userinfo [utilisateur]"
+     * @return Usage string: "/userinfo [user]"
      */
     @Override
     public String getUsage()
     {
-        return "/userinfo [utilisateur]";
+        return "/userinfo [user]";
     }
 
     /**
@@ -81,20 +81,20 @@ public class userinfo implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
-                OptionMapping option = event.getOption("utilisateur");
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                OptionMapping option = event.getOption("user");
                 User user = (option != null) ? option.getAsUser() : event.getUser();
                 Member member = (option != null) ? option.getAsMember() : event.getMember();
                 List<Role> roles = member.getRoles();
                 String rolesStr = roles.stream()
                         .map(role -> role.getName())
                         .collect(java.util.stream.Collectors.joining(", "));
-                event.reply("User info : " + "\n \t Name : " + user.getName() + "\n \t Rôles : " + rolesStr + "\n \t Créé le : " + user.getTimeCreated().toString() + "\n \t Rejoint le : " + member.getTimeJoined().toString()).queue();
+                event.reply("User info : " + "\n \t Name : " + user.getName() + "\n \t Roles : " + rolesStr + "\n \t Created on : " + user.getTimeCreated().toString() + "\n \t Joined on : " + member.getTimeJoined().toString()).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();        
+        event.reply("Sorry, too many requests in progress.").queue();        
     }
 
 }

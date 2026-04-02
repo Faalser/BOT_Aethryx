@@ -29,12 +29,12 @@ public class avatar implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Affiche l'avatar d'un utilisateur"
+     * @return Description: "Displays the avatar of a user"
      */
     @Override
     public String getDescription()
     {
-        return "Affiche l'avatar d'un utilisateur";
+        return "Displays the avatar of a user";
     }
 
     /**
@@ -48,7 +48,7 @@ public class avatar implements command
     public List<OptionData> getOptions()
     {
         return List.of(
-            new OptionData(OptionType.USER, "utilisateur", "L'utilisateur dont vous voulez l'avatar", false)
+            new OptionData(OptionType.USER, "user", "The user whose avatar you want to see", false)
         );
     }
 
@@ -56,12 +56,12 @@ public class avatar implements command
      * Returns the usage instructions for this command.
      * Shows the syntax for using the avatar command.
      * 
-     * @return Usage string: "/avatar [utilisateur]"
+     * @return Usage string: "/avatar [user]"
      */
     @Override
     public String getUsage()
     {
-        return "/avatar [utilisateur]";
+        return "/avatar [user]";
     }
 
     /**
@@ -78,16 +78,16 @@ public class avatar implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
-                OptionMapping option = event.getOption("utilisateur");
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                OptionMapping option = event.getOption("user");
                 User user = (option != null) ? option.getAsUser() : event.getUser();
                 String avatarurl = user.getEffectiveAvatarUrl() + "?size=512";
-                event.reply("Avatar de **" + user.getName() + "** : " + avatarurl).queue();
+                event.reply("Avatar of **" + user.getName() + "** : " + avatarurl).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }
 
 }

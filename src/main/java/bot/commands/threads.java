@@ -29,12 +29,12 @@ public class threads implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Liste les threads du serveur"
+     * @return Description: "List threads"
      */
     @Override
     public String getDescription()
     {
-        return "Liste les threads du serveur";
+        return "List threads";
     }
 
     /**
@@ -64,18 +64,18 @@ public class threads implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
                 Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
-                System.out.println("Nombre de threads : " + threads.size());
+                System.out.println("Number of threads: " + threads.size());
                 threads.keySet().forEach(t -> 
                     System.out.println(t.getName() + " - " + t.getState())
                 );
-                event.reply("Threads en cours : " + this.nombreDeThreads() + "\nNombre de Threads possible : " + this.nombreDeThreadsMax()).queue();
+                event.reply("Threads in progress: " + this.nombreDeThreads() + "\nNumber of Threads possible: " + this.nombreDeThreadsMax()).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }
 
 }

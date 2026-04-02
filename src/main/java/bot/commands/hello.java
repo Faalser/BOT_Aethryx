@@ -24,12 +24,12 @@ public class hello implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Le bot te salue par ton nom"
+     * @return Description: "The bot greets you by your name"
      */
     @Override
     public String getDescription()
     {
-        return "Le bot te salue par ton nom";
+        return "The bot greets you by your name";
     }
 
     /**
@@ -57,12 +57,12 @@ public class hello implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
                 event.reply("Hello " + event.getUser().getName() + " !").queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();
+        event.reply("Sorry, too many requests in progress.").queue();
     }
 }

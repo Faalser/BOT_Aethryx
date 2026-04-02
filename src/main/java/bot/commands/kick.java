@@ -33,12 +33,12 @@ public class kick implements command
     /**
      * Returns the command description shown to users in Discord.
      * 
-     * @return Description in French: "Vire un membre de manière non permanente"
+     * @return Description: "kick a member in a non permanent way"
      */
     @Override
     public String getDescription() 
     {
-        return "Vire un membre de manière non permanente";
+        return "kick a member in a non permanent way";
     }
 
     /**
@@ -51,8 +51,8 @@ public class kick implements command
     public List<OptionData> getOptions()
     {
         return List.of(
-            new OptionData(OptionType.USER, "utilisateur", "L'utilisateur à kicker", true),
-            new OptionData(OptionType.STRING, "raison", "La raison du kick", true)
+            new OptionData(OptionType.USER, "user", "The user to kick", true),
+            new OptionData(OptionType.STRING, "reason", "The reason for the kick", true)
         );
     }
 
@@ -60,12 +60,12 @@ public class kick implements command
      * Returns the usage instructions for this command.
      * Shows the required parameters for the kick command.
      * 
-     * @return Usage string: "/kick [utilisateur] [raison]"
+     * @return Usage string: "/kick [user] [reason]"
      */
     @Override
     public String getUsage() 
     {
-        return "/kick [utilisateur] [raison]";
+        return "/kick [user] [reason]";
     }
 
     /**
@@ -83,25 +83,25 @@ public class kick implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
-                Thread.currentThread().setName("Commande: " + this.getName() + "\nLancer par: " + event.getUser().getName());
-                OptionMapping option = event.getOption("utilisateur");
-                OptionMapping reasonOption = event.getOption("raison");
+                Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                OptionMapping option = event.getOption("user");
+                OptionMapping reasonOption = event.getOption("reason");
                 if (option == null || reasonOption == null) 
                 {
-                    event.reply("Veuillez fournir un utilisateur et une raison.").setEphemeral(true).queue();
+                    event.reply("Please provide a user and a reason.").setEphemeral(true).queue();
                     return;
                 }
                 option.getAsUser().openPrivateChannel().flatMap(channel -> {
-                    return channel.sendMessage("Vous avez été kické du serveur pour la raison : " + reasonOption.getAsString());
+                    return channel.sendMessage("You have been kicked from the server for the reason: " + reasonOption.getAsString());
                 }).queue(); 
                 Member member = option.getAsMember();
                 event.getGuild().kick(member).completeAfter(200, TimeUnit.MILLISECONDS);
-                event.reply("Kick effectué !").setEphemeral(true).queue();
+                event.reply("Kick done!").setEphemeral(true).queue();
             });
             thread.start();
             return;
         }
-        event.reply("Désolé, trop de demandes en cours.").queue();      
+        event.reply("Sorry, too many requests in progress.").queue();      
     }
 
 }
