@@ -11,21 +11,43 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.entities.Message;
 import java.lang.Thread;
 
+/**
+ * Moderation command to clear messages from a channel.
+ * Can delete both recent messages (within 14 days) and older messages.
+ * Recent messages are deleted in bulk for efficiency, older messages individually.
+ * Requires appropriate permissions to execute.
+ */
 public class clear implements command 
 {
     
+    /**
+     * Returns the command name used for registration with Discord.
+     * 
+     * @return The string "clear"
+     */
     @Override 
     public String getName()
     {
         return "clear";
     }
 
+    /**
+     * Returns the command description shown to users in Discord.
+     * 
+     * @return Description in French: "Supprime les messages"
+     */
     @Override 
     public String getDescription()
     {
         return "Supprime les messages";
     }
 
+    /**
+     * Returns the command options/parameters.
+     * Requires the number of messages to delete as a mandatory parameter.
+     * 
+     * @return List containing the number option parameter
+     */
     @Override
     public List<OptionData> getOptions()
     {
@@ -34,12 +56,27 @@ public class clear implements command
         );
     }
 
+    /**
+     * Returns the usage instructions for this command.
+     * Shows the required parameter for the clear command.
+     * 
+     * @return Usage string: "/clear [nombre de messages]"
+     */
     @Override 
     public String getUsage()
     {
-        return "/clear <nombre de messages>";
+        return "/clear [nombre de messages]";
     }
 
+    /**
+     * Executes the clear command.
+     * Deletes the specified number of messages from the channel.
+     * Handles both recent messages (within 14 days) and older messages differently.
+     * Recent messages are deleted in bulk, older messages individually with delays.
+     * Uses thread management to prevent excessive concurrent operations.
+     * 
+     * @param event The slash command interaction event containing command parameters
+     */
     @Override 
     public void execute(SlashCommandInteractionEvent event)
     {

@@ -9,21 +9,44 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.entities.Member;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Administrative command to kick a member from the server temporarily.
+ * Requires both a target user and a reason for the kick.
+ * Sends a private message to the kicked user with the reason.
+ * Unlike ban, the user can rejoin the server after being kicked.
+ * Requires appropriate permissions to execute.
+ */
 public class kick implements command
 {
 
+    /**
+     * Returns the command name used for registration with Discord.
+     * 
+     * @return The string "kick"
+     */
     @Override
     public String getName() 
     {
         return "kick";
     }
 
+    /**
+     * Returns the command description shown to users in Discord.
+     * 
+     * @return Description in French: "Vire un membre de manière non permanente"
+     */
     @Override
     public String getDescription() 
     {
         return "Vire un membre de manière non permanente";
     }
 
+    /**
+     * Returns the command options/parameters.
+     * Requires both a target user and a kick reason as mandatory parameters.
+     * 
+     * @return List containing user and reason option parameters
+     */
     @Override
     public List<OptionData> getOptions()
     {
@@ -33,12 +56,27 @@ public class kick implements command
         );
     }
 
+    /**
+     * Returns the usage instructions for this command.
+     * Shows the required parameters for the kick command.
+     * 
+     * @return Usage string: "/kick [utilisateur] [raison]"
+     */
     @Override
     public String getUsage() 
     {
-        return "/kick <utilisateur> <raison>";
+        return "/kick [utilisateur] [raison]";
     }
 
+    /**
+     * Executes the kick command.
+     * Kicks the specified user from the server with the provided reason.
+     * Sends a private message to the kicked user informing them of the kick.
+     * Uses thread management to prevent excessive concurrent operations.
+     * Requires both user and reason parameters to be provided.
+     * 
+     * @param event The slash command interaction event containing command parameters
+     */
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {

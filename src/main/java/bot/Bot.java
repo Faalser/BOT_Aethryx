@@ -12,8 +12,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
 
+/**
+ * Main class for the Discord bot application.
+ * This class handles bot initialization, command registration, and startup procedures.
+ * It reads the bot token from environment file and configures the JDA instance.
+ */
 public class Bot
 {
+
+    /**
+     * List of all available commands for the bot.
+     * This list contains instances of all command implementations that will be registered with Discord.
+     */
     public static final List<command> COMMANDS = List.of(
         new avatar(),
         new ban(),
@@ -28,11 +38,19 @@ public class Bot
         new unmute(),
         new userinfo()
     );
+
+    /**
+     * Main entry point for the Discord bot application.
+     * Initializes the bot, loads configuration, registers commands, and starts the JDA instance.
+     * 
+     * @param args Command line arguments (not used)
+     */
     public static void main(String[] args)
     {
         String token = null;
         try 
         {
+            // Read Discord bot token from .env file
             token = Files.lines(Paths.get(System.getProperty("user.dir") + "/.env"))
                 .filter(line -> line.startsWith("DISCORD_BOT_TOKEN="))
                 .map(line -> line.split("=", 2)[1])
@@ -44,6 +62,8 @@ public class Bot
             System.err.println("Erreur lors de la lecture du fichier .env" + e.getMessage());
             return;
         }
+        
+        // Create and configure JDA instance with required intents and event listeners
         JDA jda = JDABuilder
             .createDefault(token)
             .enableIntents(
@@ -53,13 +73,17 @@ public class Bot
             )
             .addEventListeners(new SlashListener())
             .build();
+            
         try 
         {
+            // Wait for JDA to be fully loaded
             jda.awaitReady();
         } catch (InterruptedException e) 
         {
             e.printStackTrace();
         }
+        
+        // Register all slash commands with Discord
         List <SlashCommandData> commands = new ArrayList<>();
         for (command cmd : COMMANDS)
         {
@@ -71,10 +95,13 @@ public class Bot
             commands.add(data);
             System.out.println("Commande ajoutée : /" + cmd.getName());
         }
+        
+        // Update commands on Discord servers
         jda.updateCommands().addCommands(commands).queue(
             success -> System.out.println("Commandes mises à jour avec succès"),
             error -> System.err.println("Erreur lors de la mise à jour des commandes: " + error.getMessage())
         );
+        
         System.out.println("Bot connecté : " + jda.getSelfUser().getName());
     }
 

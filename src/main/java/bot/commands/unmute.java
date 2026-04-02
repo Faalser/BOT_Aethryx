@@ -7,27 +7,55 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import java.util.List;
 
+/**
+ * Moderation command to unmute a user who was previously muted.
+ * Removes the timeout restriction from the specified user.
+ * Allows the user to send messages in the server again.
+ * Requires appropriate permissions to execute.
+ */
 public class unmute implements command
 {
     
+    /**
+     * Returns the command name used for registration with Discord.
+     * 
+     * @return The string "unmute"
+     */
     @Override
     public String getName() 
     {
         return "unmute";
     }
 
+    /**
+     * Returns the command description shown to users in Discord.
+     * 
+     * @return Description in French: "Unmute un utilisateur"
+     */
     @Override
     public String getDescription() 
     {
         return "Unmute un utilisateur";
     }
 
+    /**
+     * Returns the usage instructions for this command.
+     * Shows the required parameter for the unmute command.
+     * 
+     * @return Usage string: "/unmute [user]"
+     */
     @Override
     public String getUsage() 
     {
-        return "/unmute <user>";
+        return "/unmute [user]";
     }
 
+    /**
+     * Returns the command options/parameters.
+     * Requires a target user as a mandatory parameter.
+     * 
+     * @return List containing the user option parameter
+     */
     @Override
     public List<OptionData> getOptions() 
     {
@@ -36,6 +64,14 @@ public class unmute implements command
         );
     }
 
+    /**
+     * Executes the unmute command.
+     * Removes the timeout restriction from the specified user.
+     * Allows the user to send messages in the server again.
+     * Uses thread management to prevent excessive concurrent operations.
+     * 
+     * @param event The slash command interaction event containing command parameters
+     */
     @Override
     public void execute(SlashCommandInteractionEvent event) 
     {
