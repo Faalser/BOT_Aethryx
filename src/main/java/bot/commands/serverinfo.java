@@ -59,12 +59,17 @@ public class serverinfo implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set the thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                
+                // Check if the command is used in a server
                 if (event.getGuild() == null)
                 {
                     event.reply("This command can only be used in a server.").setEphemeral(true).queue();
                     return;
                 }
+                
+                // Reply with server information
                 event.reply("Server information: \n \t Name: " + event.getGuild().getName() + "\n \t Members: " + event.getGuild().getMemberCount()).queue();
             });
             thread.start();

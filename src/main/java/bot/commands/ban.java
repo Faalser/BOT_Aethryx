@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import java.lang.Thread;
 
@@ -83,19 +84,42 @@ public class ban implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                
+                // Check if the command is used in a server
+                if (event.getGuild() == null) {
+                    event.reply("This command can only be used in a server.").setEphemeral(true).queue();
+                    return;
+                }
+
+                // Check if the user that use the command have the permission to ban members
+                if (!event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
+                    event.reply("You do not have the permission to ban members.").setEphemeral(true).queue();
+                    return;
+                }
+
+                // Get command parameters
                 OptionMapping option = event.getOption("user");
                 OptionMapping reasonOption = event.getOption("reason");
+
+                // Check if the user and reason are provided
                 if (option == null || reasonOption == null) 
                 {
                     event.reply("Please provide a user and a reason.").setEphemeral(true).queue();
                     return;
                 }
+                
+                // Send private message to the banned user
                 option.getAsUser().openPrivateChannel().flatMap(channel -> {
                     return channel.sendMessage("You have been banned from the server for the reason: " + reasonOption.getAsString());
                 }).queue();
+                
+                // Ban the user
                 Member member = option.getAsMember();
                 event.getGuild().ban(member, 7, java.util.concurrent.TimeUnit.DAYS).completeAfter(200, TimeUnit.MILLISECONDS);
+                
+                // Reply to the command user
                 event.reply("Banishment completed!").setEphemeral(true).queue();
             });
             thread.start();

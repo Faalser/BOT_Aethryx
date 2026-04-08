@@ -62,7 +62,10 @@ public class help implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                
+                // Create the help embed
                 EmbedBuilder embed = new EmbedBuilder();
                 for (command cmd : Bot.COMMANDS) {
                     embed.addField(cmd.getName(), cmd.getDescription() + " \n" + cmd.getUsage(), false);
@@ -71,6 +74,8 @@ public class help implements command
                 embed.addField("If you have any questions, please contact us on our Discord", "https://discord.gg/tkHVfSbMWp", false);
                 embed.addField("For more information please consult our documentation on our GitHub", "https://github.com/Faalser/BOT_Aethryx", false);
                 embed.addField("Or if you have access to the bot's source code, you can find the documentation in the docs folder", "https://github.com/Faalser/BOT_Aethryx/tree/main/doc/apidocs", false);
+                
+                // Send the help embed
                 event.replyEmbeds(embed.build()).queue();
             });
             thread.start();

@@ -78,10 +78,17 @@ public class avatar implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                
+                // Get command parameters
                 OptionMapping option = event.getOption("user");
                 User user = (option != null) ? option.getAsUser() : event.getUser();
+                
+                // Get avatar URL
                 String avatarurl = user.getEffectiveAvatarUrl() + "?size=512";
+                
+                // Reply with avatar URL
                 event.reply("Avatar of **" + user.getName() + "** : " + avatarurl).queue();
             });
             thread.start();

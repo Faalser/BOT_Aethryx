@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.entities.Message;
 import java.lang.Thread;
+import net.dv8tion.jda.api.Permission;
 
 /**
  * Moderation command to clear messages from a channel.
@@ -83,8 +84,19 @@ public class clear implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                
+                // Check if the user that use the command have the permission to manage messages
+                if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                    event.reply("You do not have the permission to manage messages.").setEphemeral(true).queue();
+                    return;
+                }
+
+                // Get command parameters
                 int number = event.getOption("number").getAsInt();
+                
+                // Get messages from history
                 event.getChannel().getHistory().retrievePast(number).queue(messages -> {
                     List<Message> recents = messages.stream()
                     .filter(m -> m.getTimeCreated().isAfter(OffsetDateTime.now().minusDays(14)))
@@ -102,6 +114,8 @@ public class clear implements command
                             vieux.get(i).delete().queueAfter(i * 1100, TimeUnit.MILLISECONDS);
                         }
                     }
+                    
+                    // Reply to the command user
                     event.reply("Clear done!").setEphemeral(true).queue();
                 });
             });

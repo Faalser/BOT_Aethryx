@@ -64,12 +64,17 @@ public class threads implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set the thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                
+                // Get all threads and log their information
                 Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
                 System.out.println("Number of threads: " + threads.size());
                 threads.keySet().forEach(t -> 
                     System.out.println(t.getName() + " - " + t.getState())
                 );
+
+                // Reply with thread information
                 event.reply("Threads in progress: " + this.nombreDeThreads() + "\nNumber of Threads possible: " + this.nombreDeThreadsMax()).queue();
             });
             thread.start();

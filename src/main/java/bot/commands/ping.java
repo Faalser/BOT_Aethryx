@@ -57,8 +57,13 @@ public class ping implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set the thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+
+                // Get the gateway ping
                 long latency = event.getJDA().getGatewayPing();
+                
+                // Reply with the latency
                 event.reply("Pong! Latency: **" + latency + "ms**").queue();
             });
             thread.start();

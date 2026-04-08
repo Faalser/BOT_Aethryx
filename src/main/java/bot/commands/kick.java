@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.entities.Member;
 import java.util.concurrent.TimeUnit;
+import net.dv8tion.jda.api.Permission;
 
 /**
  * Administrative command to kick a member from the server temporarily.
@@ -83,17 +84,38 @@ public class kick implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+
+                // Check if the command is used in a server
+                if (event.getGuild() == null) {
+                    event.reply("This command can only be used in a server.").setEphemeral(true).queue();
+                    return;
+                }
+
+                // Check if the user that use the command have the permission to kick members
+                if (!event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+                    event.reply("You do not have the permission to kick members.").setEphemeral(true).queue();
+                    return;
+                }
+                
+                // Get command parameters
                 OptionMapping option = event.getOption("user");
                 OptionMapping reasonOption = event.getOption("reason");
+
+                // Check if the user and reason are provided
                 if (option == null || reasonOption == null) 
                 {
                     event.reply("Please provide a user and a reason.").setEphemeral(true).queue();
                     return;
                 }
+
+                // Send private message to the kicked user
                 option.getAsUser().openPrivateChannel().flatMap(channel -> {
                     return channel.sendMessage("You have been kicked from the server for the reason: " + reasonOption.getAsString());
                 }).queue(); 
+                
+                // Kick the user
                 Member member = option.getAsMember();
                 event.getGuild().kick(member).completeAfter(200, TimeUnit.MILLISECONDS);
                 event.reply("Kick done!").setEphemeral(true).queue();

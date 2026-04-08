@@ -81,7 +81,10 @@ public class userinfo implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set the thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+
+                // Get command parameter
                 OptionMapping option = event.getOption("user");
                 User user = (option != null) ? option.getAsUser() : event.getUser();
                 Member member = (option != null) ? option.getAsMember() : event.getMember();

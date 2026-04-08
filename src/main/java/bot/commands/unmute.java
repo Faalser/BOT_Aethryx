@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.command;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -78,9 +79,33 @@ public class unmute implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set the thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+                
+                // Get command parameter
                 Member member = event.getOption("user").getAsMember();
+
+                // Check if the command is used in a server
+                if (event.getGuild() == null) {
+                    event.reply("This command can only be used in a server.").setEphemeral(true).queue();
+                    return;
+                }
+
+                // Check if the user that use the command have the permission to unmute members
+                if (!event.getMember().hasPermission(Permission.MANAGE_ROLES)) {
+                    event.reply("You do not have the permission to unmute members.").setEphemeral(true).queue();
+                    return;
+                }
+
+                // Send private message to the muted user
+                member.getUser().openPrivateChannel().flatMap(channel -> {
+                    return channel.sendMessage("You have been unmuted from the server.");
+                }).queue();
+
+                // Unmute the user
                 member.removeTimeout().queue();
+
+                // Reply to the command user
                 event.reply("User " + member.getUser() + " has been unmuted.").setEphemeral(true).queue();
             });
             thread.start();

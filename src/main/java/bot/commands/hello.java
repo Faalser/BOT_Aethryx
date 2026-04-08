@@ -57,7 +57,10 @@ public class hello implements command
         if (this.nombreDeThreads() < this.nombreDeThreadsMax())
         {
             Thread thread = new Thread(() -> {
+                // Set thread name for debugging
                 Thread.currentThread().setName("Command: " + this.getName() + "\nStarted by: " + event.getUser().getName());
+
+                // Send the greeting message
                 event.reply("Hello " + event.getUser().getName() + " !").queue();
             });
             thread.start();
