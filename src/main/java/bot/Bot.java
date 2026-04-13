@@ -31,8 +31,10 @@ public class Bot
         new hello(),
         new help(),
         new kick(),
+        new musicDownload(),
         new mute(),
         new ping(),
+        new play(),
         new serverinfo(),
         new threads(),
         new unmute(),
@@ -71,7 +73,7 @@ public class Bot
                 GatewayIntent.GUILD_MESSAGES, 
                 GatewayIntent.GUILD_MEMBERS
             )
-            .addEventListeners(new SlashListener())
+            .addEventListeners(new slashListener())
             .build();
             
         try 

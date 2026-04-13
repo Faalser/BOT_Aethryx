@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.events.session.ReadyEvent;
  * Extends ListenerAdapter to handle Discord API events.
  * Routes slash command interactions to the appropriate command implementations.
  */
-public class SlashListener extends ListenerAdapter 
+public class slashListener extends ListenerAdapter 
 {
 
     /**
