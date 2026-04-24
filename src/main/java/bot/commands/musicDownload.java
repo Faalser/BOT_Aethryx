@@ -2,8 +2,6 @@ package bot.commands;
 
 import bot.command;
 import java.util.List;
-import java.io.File;
-
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -96,7 +94,6 @@ public class musicDownload implements command
                 // Download the song
                 try {
                     ProcessBuilder pb = new ProcessBuilder("yt-dlp", "-x", "--audio-format", "mp3", "-o", "songs/" + song + ".%(ext)s", url);
-                    pb.directory(new File("src/main/java/bot"));
                     pb.start();
                 } catch (Exception e) {
                     e.printStackTrace();

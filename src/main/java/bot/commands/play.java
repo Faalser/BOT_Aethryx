@@ -6,11 +6,13 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import java.util.List;
 import com.sedmelluq.discord.lavaplayer.player.*;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.source.local.LocalAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.*;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
+import java.io.File;
 import java.nio.ByteBuffer;
 
 /**
@@ -32,6 +34,18 @@ public class play implements command
 
     static {
         playerManager.registerSourceManager(new LocalAudioSourceManager());
+
+        player.addListener(new AudioEventAdapter() {
+            @Override
+            public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+                System.out.println("La piste s'est arrêtée. Raison : " + endReason);
+            }
+
+            @Override
+            public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+                System.err.println("Erreur pendant la lecture : " + exception.getMessage());
+            }
+        });
     }
 
     /**
@@ -81,7 +95,7 @@ public class play implements command
          */
         public boolean isOpus() 
         { 
-            return true; 
+            return false; 
         }
     }
 
@@ -160,7 +174,7 @@ public class play implements command
                 }
 
                 // Play the song
-                playerManager.loadItem("songs/" + song + ".mp3", new AudioLoadResultHandler() {
+                playerManager.loadItem(new File("songs/" + song + ".mp3").getAbsolutePath(), new AudioLoadResultHandler() {
                     /**
                      * Called when a single audio track is successfully loaded.
                      * Starts playing the track and notifies the user.
@@ -171,36 +185,19 @@ public class play implements command
                     {
                         var audioManager = event.getGuild().getAudioManager();
 
-                        // Set auto-reconnect to false to prevent issues
-                        audioManager.setAutoReconnect(false);
+                        // Set auto-reconnect to true to prevent issues
+                        audioManager.setAutoReconnect(true);
 
                         // Set the audio player as the sending handler
                         audioManager.setSendingHandler(new AudioPlayerSendHandler(player));
 
+                        // Play the track
+                        player.setPaused(false);
+                        player.setVolume(20);
+                        player.playTrack(track);
+
                         // Get in the voice channel
                         audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
-
-                        // Wait for the connection to be established
-                        int waited = 0;
-                        while (!audioManager.isConnected() && waited < 10000) {
-                            try { 
-                                Thread.sleep(100);
-                            }
-                            catch (InterruptedException e) { 
-                                Thread.currentThread().interrupt(); 
-                                return; 
-                            }
-                            waited += 100;
-                        }
-
-                        // Check if the connection was established
-                        if (!audioManager.isConnected()) {
-                            event.getHook().sendMessage("Can't join the voice channel.").queue();
-                            return;
-                        }
-
-                        // Play the track
-                        player.playTrack(track);
 
                         // Notify the user
                         event.getHook().sendMessage("Now playing : " + track.getInfo().title).queue();

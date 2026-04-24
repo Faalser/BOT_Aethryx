@@ -43,6 +43,16 @@
             <artifactId>lavaplayer</artifactId>
             <version>2.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>dev.arbjerg</groupId>
+            <artifactId>lavaplayer-natives</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>club.minnced</groupId>
+            <artifactId>opus-java</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
